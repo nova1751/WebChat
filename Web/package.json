@@ -1,7 +1,10 @@
 {
-  "name": "bs",
-  "version": "0.0.0",
-  "private": true,
+  "name": "webchat",
+  "version": "1.0.0",
+  "description": "An instant message app built with electron-vite",
+  "main": "./out/main/index.js",
+  "author": "nova1751",
+  "homepage": "https://refrain.cf",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
