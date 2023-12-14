@@ -10,8 +10,7 @@ const handleClick = () => {
 </script>
 <template>
   <div>
-    <el-button type="primary" @click="handleClick">test</el-button>ssssssssssssssss
-    {{ count }}
+    <el-button type="primary" @click="handleClick">test</el-button>ssssssssssssssss {{ count }}????
   </div>
 </template>
 <style scoped lang="scss"></style>
