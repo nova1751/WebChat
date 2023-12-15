@@ -1,16 +1,13 @@
 <script setup lang="ts">
-const count = ref(0)
-const handleClick = () => {
-  count.value++
-  ElMessage({
-    type: 'success',
-    message: `${count.value}`
+onMounted(() => {
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'F11') {
+      event.preventDefault()
+    }
   })
-}
+})
 </script>
 <template>
-  <div>
-    <el-button type="primary" @click="handleClick">test</el-button>ssssssssssssssss {{ count }}????
-  </div>
+  <router-view></router-view>
 </template>
 <style scoped lang="scss"></style>
