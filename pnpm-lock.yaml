@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@rushstack/eslint-patch':
+        specifier: ^1.6.1
+        version: 1.6.1
       '@types/node':
         specifier: ^20.10.4
         version: 20.10.4
@@ -84,24 +87,6 @@ importers:
       '@electron-toolkit/tsconfig':
         specifier: ^1.0.1
         version: 1.0.1(@types/node@20.10.4)
-      '@rushstack/eslint-patch':
-        specifier: ^1.3.3
-        version: 1.6.1
-      '@types/node':
-        specifier: ^20.10.4
-        version: 20.10.4
-      '@vitejs/plugin-vue':
-        specifier: ^4.5.2
-        version: 4.5.2(vite@4.5.1)(vue@3.3.12)
-      '@vue/eslint-config-prettier':
-        specifier: ^8.0.0
-        version: 8.0.0(eslint@8.56.0)(prettier@3.1.1)
-      '@vue/eslint-config-typescript':
-        specifier: ^12.0.0
-        version: 12.0.0(eslint-plugin-vue@9.19.2)(eslint@8.56.0)(typescript@5.3.3)
-      axios:
-        specifier: ^1.6.2
-        version: 1.6.2
       electron:
         specifier: ^25.6.0
         version: 25.9.8
@@ -111,45 +96,6 @@ importers:
       electron-vite:
         specifier: ^1.0.27
         version: 1.0.29(vite@4.5.1)
-      element-plus:
-        specifier: ^2.4.4
-        version: 2.4.4(vue@3.3.12)
-      eslint:
-        specifier: ^8.56.0
-        version: 8.56.0
-      eslint-plugin-vue:
-        specifier: ^9.19.2
-        version: 9.19.2(eslint@8.56.0)
-      pinia:
-        specifier: ^2.1.7
-        version: 2.1.7(typescript@5.3.3)(vue@3.3.12)
-      prettier:
-        specifier: ^3.1.1
-        version: 3.1.1
-      sass:
-        specifier: ^1.69.5
-        version: 1.69.5
-      typescript:
-        specifier: ^5.3.3
-        version: 5.3.3
-      unplugin-auto-import:
-        specifier: ^0.17.2
-        version: 0.17.2
-      unplugin-vue-components:
-        specifier: ^0.26.0
-        version: 0.26.0(vue@3.3.12)
-      vite:
-        specifier: ^4.4.9
-        version: 4.5.1(@types/node@20.10.4)(sass@1.69.5)
-      vue:
-        specifier: ^3.3.12
-        version: 3.3.12(typescript@5.3.3)
-      vue-router:
-        specifier: ^4.2.5
-        version: 4.2.5(vue@3.3.12)
-      vue-tsc:
-        specifier: ^1.8.25
-        version: 1.8.25(typescript@5.3.3)
 
   packages/Server:
     dependencies:
@@ -196,9 +142,6 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^6.0.0
         version: 6.14.0(eslint@8.56.0)(typescript@5.2.2)
-      eslint:
-        specifier: ^8.42.0
-        version: 8.56.0
       eslint-config-prettier:
         specifier: ^9.0.0
         version: 9.1.0(eslint@8.56.0)
@@ -208,9 +151,6 @@ importers:
       jest:
         specifier: ^29.5.0
         version: 29.7.0(@types/node@20.10.4)(ts-node@10.9.2)
-      prettier:
-        specifier: ^3.0.0
-        version: 3.1.1
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
@@ -229,78 +169,18 @@ importers:
       tsconfig-paths:
         specifier: ^4.2.0
         version: 4.2.0
-      typescript:
-        specifier: ^5.1.3
-        version: 5.2.2
 
   packages/Web:
     devDependencies:
-      '@rushstack/eslint-patch':
-        specifier: ^1.3.3
-        version: 1.6.1
       '@tsconfig/node18':
         specifier: ^18.2.2
         version: 18.2.2
-      '@types/node':
-        specifier: ^20.10.4
-        version: 20.10.4
-      '@vitejs/plugin-vue':
-        specifier: ^4.5.2
-        version: 4.5.2(vite@4.5.1)(vue@3.3.12)
-      '@vue/eslint-config-prettier':
-        specifier: ^8.0.0
-        version: 8.0.0(eslint@8.56.0)(prettier@3.1.1)
-      '@vue/eslint-config-typescript':
-        specifier: ^12.0.0
-        version: 12.0.0(eslint-plugin-vue@9.19.2)(eslint@8.56.0)(typescript@5.3.3)
       '@vue/tsconfig':
         specifier: ^0.4.0
         version: 0.4.0
-      axios:
-        specifier: ^1.6.2
-        version: 1.6.2
-      element-plus:
-        specifier: ^2.4.4
-        version: 2.4.4(vue@3.3.12)
-      eslint:
-        specifier: ^8.56.0
-        version: 8.56.0
-      eslint-plugin-vue:
-        specifier: ^9.19.2
-        version: 9.19.2(eslint@8.56.0)
       npm-run-all2:
         specifier: ^6.0.6
         version: 6.1.1
-      pinia:
-        specifier: ^2.1.7
-        version: 2.1.7(typescript@5.3.3)(vue@3.3.12)
-      prettier:
-        specifier: ^3.1.1
-        version: 3.1.1
-      sass:
-        specifier: ^1.69.5
-        version: 1.69.5
-      typescript:
-        specifier: ^5.3.3
-        version: 5.3.3
-      unplugin-auto-import:
-        specifier: ^0.17.2
-        version: 0.17.2
-      unplugin-vue-components:
-        specifier: ^0.26.0
-        version: 0.26.0(vue@3.3.12)
-      vite:
-        specifier: ^4.4.9
-        version: 4.5.1(@types/node@20.10.4)(sass@1.69.5)
-      vue:
-        specifier: ^3.3.12
-        version: 3.3.12(typescript@5.3.3)
-      vue-router:
-        specifier: ^4.2.5
-        version: 4.2.5(vue@3.3.12)
-      vue-tsc:
-        specifier: ^1.8.25
-        version: 1.8.25(typescript@5.3.3)
 
 packages:
 
