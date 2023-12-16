@@ -1,6 +1,7 @@
 {
-  "name": "webchat",
+  "name": "@webchat/web",
   "version": "1.0.0",
+  "private": true,
   "description": "An instant message app built with electron-vite",
   "main": "./out/main/index.js",
   "author": "nova1751",
