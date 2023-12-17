@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -8,14 +8,12 @@ function createWindow(): void {
   const mainWindow = new BrowserWindow({
     width: 320,
     height: 448,
-    show: false,
     frame: false,
     resizable: false,
-    autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      preload: join(__dirname, '../preload/index.js')
+      // sandbox: false
     }
   })
 
@@ -35,6 +33,11 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  // handle window-close
+  ipcMain.on('window-close', () => {
+    mainWindow.close()
+  })
 }
 
 // This method will be called when Electron has finished

@@ -1,15 +1,18 @@
 <script setup lang="ts">
-const handleKeyDown = (event) => {
-  if (event.keycode === 112) {
-    event.preventDefault()
-  }
-}
+const handleClose = window.api.closeWindow
 </script>
 
 <template>
-  <div class="login-container" @keydown="handleKeyDown">
-    <div class="header">测试</div>
-    <div class="form">测试</div>
+  <div class="login-container">
+    <div class="window-close" @click="handleClose">
+      <i class="login-icon"><i-ep-close /></i>
+    </div>
+    <div class="proxy-setting">
+      <i class="login-icon"><i-ep-setting /></i>
+    </div>
+    <div class="login-panel">
+      <div class="password-container"></div>
+    </div>
   </div>
 </template>
 
@@ -21,18 +24,42 @@ const handleKeyDown = (event) => {
   background-image: linear-gradient(45deg, #d9afd9 0%, #97d9e1 100%);
   display: flex;
   flex-direction: column;
-  -webkit-app-region: drag;
-  padding: 27px;
-  .header {
-    margin-top: 100px;
-    height: 100%;
-    background-color: green;
+  position: relative;
+  .window-close {
     -webkit-app-region: no-drag;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 6px 8px;
+    display: flex;
+    z-index: 2100;
+    &:hover {
+      background-color: #c42b1c;
+    }
   }
-  .form {
-    height: 100%;
-    background-color: blue;
+  .proxy-setting {
     -webkit-app-region: no-drag;
+    position: absolute;
+    right: 28px;
+    top: 0;
+    padding: 6px 8px;
+    display: flex;
+    z-index: 2100;
+  }
+  i.login-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .login-panel {
+    padding: 64px 32px 0;
+    height: 100%;
+    .password-container {
+      -webkit-app-region: no-drag;
+      height: 100%;
+    }
   }
 }
 </style>
