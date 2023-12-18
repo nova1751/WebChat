@@ -2,7 +2,10 @@ import { contextBridge, ipcRenderer } from 'electron'
 // import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
-const api = { closeWindow: () => ipcRenderer.send('window-close') }
+const api = {
+  closeWindow: () => ipcRenderer.send('window-close'),
+  openHomeWindow: () => ipcRenderer.send('open-home-window')
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise

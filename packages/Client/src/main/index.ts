@@ -3,20 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
-function createWindow(): void {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
-    width: 320,
-    height: 448,
-    frame: false,
-    resizable: false,
-    ...(process.platform === 'linux' ? { icon } : {}),
-    webPreferences: {
-      preload: join(__dirname, '../preload/index.js')
-      // sandbox: false
-    }
-  })
-
+function createWindow(mainWindow): void {
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
@@ -24,19 +11,6 @@ function createWindow(): void {
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
-  })
-
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
-  }
-
-  // handle window-close
-  ipcMain.on('window-close', () => {
-    mainWindow.close()
   })
 }
 
@@ -53,13 +27,60 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
-
-  createWindow()
-
+  // Create the browser window.
+  const mainWindow = new BrowserWindow({
+    width: 320,
+    height: 448,
+    frame: false,
+    resizable: false,
+    ...(process.platform === 'linux' ? { icon } : {}),
+    webPreferences: {
+      preload: join(__dirname, '../preload/index.js')
+      // sandbox: false
+    }
+  })
+  createWindow(mainWindow)
+  // HMR for renderer base on electron-vite cli.
+  // Load the remote URL for development or the local html file for production.
+  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
+  } else {
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
+  }
+  ipcMain.on('window-close', () => {
+    mainWindow.close()
+  })
+  ipcMain.on('open-home-window', () => {
+    const homeWindow = new BrowserWindow({
+      width: 964,
+      height: 640,
+      frame: false,
+      titleBarStyle: 'hidden',
+      titleBarOverlay: {
+        color: 'rgba(0, 0, 0, 0)',
+        height: 28
+      },
+      ...(process.platform === 'linux' ? { icon } : {}),
+      webPreferences: {
+        preload: join(__dirname, '../preload/index.js')
+        // sandbox: false
+      }
+    })
+    mainWindow.close()
+    createWindow(homeWindow)
+    // HMR for renderer base on electron-vite cli.
+    // Load the remote URL for development or the local html file for production.
+    if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+      homeWindow.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/#/home')
+    } else {
+      homeWindow.loadFile(join(__dirname, '../renderer/index.html/#/home'))
+    }
+  })
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (BrowserWindow.getAllWindows().length === 0) createWindow()
+    if (BrowserWindow.getAllWindows().length === 0) createWindow(mainWindow)
+    // handle window-close
   })
 })
 

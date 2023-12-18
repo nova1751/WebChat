@@ -27,7 +27,10 @@ export default defineConfig({
         resolvers: [ElementPlusResolver()]
       }),
       Components({
-        resolvers: [ElementPlusResolver(), IconsResolver()]
+        resolvers: [
+          ElementPlusResolver(),
+          IconsResolver({ enabledCollections: ['gravity-ui', 'mdi', 'ep', 'ion'] })
+        ]
       }),
       Icons({
         // experimental
