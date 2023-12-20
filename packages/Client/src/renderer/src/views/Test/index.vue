@@ -1,10 +1,8 @@
-<script setup lang="ts">
-onMounted(() => ElMessage({ type: 'success', message: '登录成功' }))
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <div class="container">
-    <div class="side-bar"><router-link to="/test">前往测试</router-link></div>
+    <div class="side-bar"><router-link to="/home">回到Home页面</router-link></div>
     <div class="message-panel"></div>
   </div>
 </template>

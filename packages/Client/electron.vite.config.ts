@@ -23,7 +23,15 @@ export default defineConfig({
     plugins: [
       vue(),
       AutoImport({
-        imports: ['vue', 'vue-router', 'pinia', { axios: [['default', 'axios']] }],
+        imports: [
+          'vue',
+          'vue-router',
+          {
+            'vue-router': ['createRouter', 'createWebHistory', 'createWebHashHistory']
+          },
+          'pinia',
+          { axios: [['default', 'axios']] }
+        ],
         resolvers: [ElementPlusResolver()]
       }),
       Components({

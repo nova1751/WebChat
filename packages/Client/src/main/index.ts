@@ -31,6 +31,7 @@ app.whenReady().then(() => {
   const mainWindow = new BrowserWindow({
     width: 320,
     height: 448,
+    show: false,
     frame: false,
     resizable: false,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -54,8 +55,11 @@ app.whenReady().then(() => {
     const homeWindow = new BrowserWindow({
       width: 964,
       height: 640,
+      show: false,
       frame: false,
       titleBarStyle: 'hidden',
+      useContentSize: true,
+      backgroundColor: 'rgba(255, 255, 255, 0)',
       titleBarOverlay: {
         color: 'rgba(0, 0, 0, 0)',
         height: 28
@@ -73,7 +77,7 @@ app.whenReady().then(() => {
     if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
       homeWindow.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/#/home')
     } else {
-      homeWindow.loadFile(join(__dirname, '../renderer/index.html/#/home'))
+      homeWindow.loadFile(join(__dirname, '../renderer/index.html'), { hash: 'home' })
     }
   })
   app.on('activate', function () {
