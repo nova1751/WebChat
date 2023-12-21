@@ -37,7 +37,9 @@ export default defineConfig({
       Components({
         resolvers: [
           ElementPlusResolver(),
-          IconsResolver({ enabledCollections: ['gravity-ui', 'mdi', 'ep', 'ion'] })
+          IconsResolver({
+            enabledCollections: ['gravity-ui', 'mdi', 'ep', 'ion', 'twemoji', 'mingcute']
+          })
         ]
       }),
       Icons({

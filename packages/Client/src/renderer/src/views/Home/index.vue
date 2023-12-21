@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import SideBar from './components/SideBar.vue'
 onMounted(() => ElMessage({ type: 'success', message: '登录成功' }))
 </script>
 
 <template>
   <div class="container">
-    <div class="side-bar"><router-link to="/test">前往测试</router-link></div>
+    <div class="side-bar"><SideBar /></div>
     <div class="message-panel"></div>
   </div>
 </template>
@@ -16,8 +17,7 @@ onMounted(() => ElMessage({ type: 'success', message: '登录成功' }))
   .side-bar {
     width: 60px;
     height: 100%;
-    background-color: red;
-    -webkit-app-region: no-drag;
+    background-color: rgb(242, 242, 242);
   }
   .message-panel {
     flex: 1;
