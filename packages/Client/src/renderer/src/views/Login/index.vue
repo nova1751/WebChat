@@ -8,11 +8,6 @@ const preExist = ref('')
 const toLogin = () => (settingExist.value = 'login')
 const toRegister = () => (settingExist.value = 'register')
 const toProxy = () => {
-  ElMessage({
-    type: 'success',
-    message: 'success'
-  })
-  console.log(10, settingExist.value)
   if (settingExist.value !== 'proxy') {
     preExist.value = settingExist.value
     settingExist.value = 'proxy'
@@ -35,9 +30,11 @@ const toProxy = () => {
       <i class="login-icon"><i-ep-setting /></i>
     </div>
     <div class="login-panel">
-      <Login v-if="settingExist === 'login'" @to-register="toRegister" />
-      <Register v-if="settingExist === 'register'" @to-login="toLogin" />
-      <Proxy v-if="settingExist === 'proxy'" />
+      <keep-alive>
+        <Login v-if="settingExist === 'login'" @to-register="toRegister" />
+        <Register v-else-if="settingExist === 'register'" @to-login="toLogin" />
+        <Proxy v-else-if="settingExist === 'proxy'" />
+      </keep-alive>
     </div>
   </div>
 </template>

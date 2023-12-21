@@ -35,25 +35,32 @@ const rules = {
 const formRef = ref<FormInstance>()
 const isLoading = ref(false)
 const doLogin = () => {
-  formRef.value!.validate(async (valid) => {
-    if (valid) {
-      isLoading.value = true
-      try {
-        await userStore.getUserInfo(userInfo.value)
+  if (protocol.value) {
+    formRef.value!.validate(async (valid) => {
+      if (valid) {
+        isLoading.value = true
+        try {
+          await userStore.getUserInfo(userInfo.value)
 
-        openHomeWindow()
-      } catch (error) {
-        console.warn(error)
-      } finally {
-        isLoading.value = false
+          openHomeWindow()
+        } catch (error) {
+          console.warn(error)
+        } finally {
+          isLoading.value = false
+        }
       }
-    }
-  })
+    })
+  } else {
+    ElMessage({
+      type: 'warning',
+      message: '请勾选协议'
+    })
+  }
 }
 </script>
 
 <template>
-  <div class="password-container">
+  <div class="password-container" @keyup.enter="doLogin">
     <div class="avatar">
       <el-avatar :size="80" :src="userStore.userInfo?.avatar">
         <i-ep-user-filled width="40px" height="40px" />

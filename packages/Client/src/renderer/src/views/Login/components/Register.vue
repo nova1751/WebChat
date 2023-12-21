@@ -5,9 +5,9 @@ const userStore = useUserStore()
 const emit = defineEmits(['toLogin'])
 const userInfo = ref({
   username: '',
-  password: '',
-  protocol: ''
+  password: ''
 })
+const protocol = ref(false)
 // 准备数据对象
 const rules = {
   username: [
@@ -34,24 +34,30 @@ const rules = {
 const formRef = ref<FormInstance>()
 const isLoading = ref(false)
 const doRegister = () => {
-  formRef.value!.validate(async (valid) => {
-    if (valid) {
-      try {
-        isLoading.value = true
-        await userStore.getUserInfo(userInfo.value)
-
-        ElMessage({ type: 'success', message: '注册成功' })
-        emit('toLogin')
-      } finally {
-        isLoading.value = false
+  if (protocol.value) {
+    formRef.value!.validate(async (valid) => {
+      if (valid) {
+        try {
+          isLoading.value = true
+          await userStore.getUserInfo(userInfo.value)
+          ElMessage({ type: 'success', message: '注册成功' })
+          emit('toLogin')
+        } finally {
+          isLoading.value = false
+        }
       }
-    }
-  })
+    })
+  } else {
+    ElMessage({
+      type: 'warning',
+      message: '请勾选协议'
+    })
+  }
 }
 </script>
 
 <template>
-  <div class="password-container">
+  <div class="password-container" @keyup.enter="doRegister">
     <div class="avatar">
       <el-avatar :size="80" :src="undefined">
         <i-ep-user-filled width="40px" height="40px" />
@@ -86,8 +92,8 @@ const doRegister = () => {
             ><template #prefix> <i-ep-lock /></template
           ></el-input>
         </el-form-item>
-        <el-form-item style="padding-bottom;: 24px" prop="protocol">
-          <el-checkbox size="small" v-model="userInfo.protocol"
+        <el-form-item style="padding-bottom;: 24px">
+          <el-checkbox size="small" v-model="protocol"
             ><span>已阅读并同意服务协议</span></el-checkbox
           >
         </el-form-item>
@@ -98,7 +104,7 @@ const doRegister = () => {
             class="confirm"
             auto-insert-space
             style="width: 100%"
-            :disabled="!userInfo.protocol"
+            :disabled="!protocol"
             @click="doRegister"
             :loading="isLoading"
             >注册</el-button
