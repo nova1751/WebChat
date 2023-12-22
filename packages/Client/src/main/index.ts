@@ -3,7 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 
-function createWindow(mainWindow): void {
+function createWindow(mainWindow, path: string = ''): void {
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
@@ -12,22 +12,13 @@ function createWindow(mainWindow): void {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
+  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'] + `/#/${path}`)
+  } else {
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'), { hash: path })
+  }
 }
-
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.whenReady().then(() => {
-  // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
-
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
-  app.on('browser-window-created', (_, window) => {
-    optimizer.watchWindowShortcuts(window)
-  })
-  // Create the browser window.
+const createMainWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 320,
     height: 448,
@@ -40,45 +31,57 @@ app.whenReady().then(() => {
       // sandbox: false
     }
   })
-  createWindow(mainWindow)
-  // HMR for renderer base on electron-vite cli.
-  // Load the remote URL for development or the local html file for production.
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
-  } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
-  }
+  createWindow(mainWindow, 'login')
+  return mainWindow
+}
+const createHomeWindow = () => {
+  const homeWindow = new BrowserWindow({
+    width: 964,
+    height: 640,
+    show: false,
+    frame: false,
+    titleBarStyle: 'hidden',
+    useContentSize: true,
+    backgroundColor: 'rgba(255, 255, 255, 0)',
+    titleBarOverlay: {
+      color: 'rgba(0, 0, 0, 0)',
+      height: 28
+    },
+    ...(process.platform === 'linux' ? { icon } : {}),
+    webPreferences: {
+      preload: join(__dirname, '../preload/index.js')
+      // sandbox: false
+    }
+  })
+  createWindow(homeWindow)
+  return homeWindow
+}
+// This method will be called when Electron has finished
+// initialization and is ready to create browser windows.
+// Some APIs can only be used after this event occurs.
+app.whenReady().then(() => {
+  // Set app user model id for windows
+  electronApp.setAppUserModelId('com.electron')
+  // Create the browser window.
+
+  // Default open or close DevTools by F12 in development
+  // and ignore CommandOrControl + R in production.
+  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
+  app.on('browser-window-created', (_, window) => {
+    optimizer.watchWindowShortcuts(window)
+  })
+  let mainWindow = createMainWindow()
+  let homeWindow
   ipcMain.on('window-close', () => {
     mainWindow.close()
   })
   ipcMain.on('open-home-window', () => {
-    const homeWindow = new BrowserWindow({
-      width: 964,
-      height: 640,
-      show: false,
-      frame: false,
-      titleBarStyle: 'hidden',
-      useContentSize: true,
-      backgroundColor: 'rgba(255, 255, 255, 0)',
-      titleBarOverlay: {
-        color: 'rgba(0, 0, 0, 0)',
-        height: 28
-      },
-      ...(process.platform === 'linux' ? { icon } : {}),
-      webPreferences: {
-        preload: join(__dirname, '../preload/index.js')
-        // sandbox: false
-      }
-    })
     mainWindow.close()
-    createWindow(homeWindow)
-    // HMR for renderer base on electron-vite cli.
-    // Load the remote URL for development or the local html file for production.
-    if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-      homeWindow.loadURL(process.env['ELECTRON_RENDERER_URL'] + '/#/home')
-    } else {
-      homeWindow.loadFile(join(__dirname, '../renderer/index.html'), { hash: 'home' })
-    }
+    homeWindow = createHomeWindow()
+  })
+  ipcMain.on('logout', () => {
+    homeWindow.close()
+    mainWindow = createMainWindow()
   })
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

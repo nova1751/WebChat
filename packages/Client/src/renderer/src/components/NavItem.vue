@@ -1,11 +1,14 @@
 <script setup lang="ts">
-const isActive = ref(false)
+import Chat2Line from '~icons/mingcute/chat-2-line'
+import PersonCircleOutline from '~icons/ion/person-circle-outline'
+defineProps(['maskId', 'maskClass'])
+const components = shallowRef([Chat2Line, PersonCircleOutline])
 </script>
 
 <template>
-  <div :class="['nav-item', { active: isActive }]" @click="isActive = !isActive">
-    <el-icon :size="28" class="icon"><slot></slot></el-icon>
-    <div class="icon-filled">
+  <div class="nav-item">
+    <el-icon :size="28" class="icon"><component :is="components[maskId]" /></el-icon>
+    <div :class="['icon-filled', maskClass]">
       <div class="item-mask"></div>
     </div>
   </div>
@@ -22,13 +25,23 @@ const isActive = ref(false)
   border-radius: 8px;
   margin-bottom: 8px;
   position: relative;
+  .icon {
+    transition: 0.16s;
+  }
   .icon-filled {
-    width: 28px;
-    height: 28px;
+    width: 38px;
+    height: 38px;
     position: absolute;
     display: none;
-    -webkit-mask: url('@/assets/icons/chat-filled.svg') no-repeat center;
-    mask: url('@/assets/icons/chat-filled.svg') no-repeat center;
+    &.chat {
+      -webkit-mask: url('@/assets/icons/chat-filled.svg') no-repeat center;
+      mask: url('@/assets/icons/chat-filled.svg') no-repeat center;
+    }
+    &.contact {
+      -webkit-mask: url('@/assets/icons/contact-filled.svg') no-repeat center;
+      mask: url('@/assets/icons/contact-filled.svg') no-repeat center;
+    }
+
     @keyframes highlightIcon {
       from {
         transform: scale(0);
@@ -57,10 +70,15 @@ const isActive = ref(false)
   }
 
   &:hover {
-    background-color: rgb(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  &:active {
+    .icon {
+      opacity: 0.5;
+    }
   }
   &.active {
-    background-color: rgb(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
     .icon {
       opacity: 0;
     }

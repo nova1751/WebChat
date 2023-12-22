@@ -3,26 +3,22 @@ import { useUserStore } from '@/stores/user'
 import type { FormInstance } from 'element-plus'
 import { onClickOutside } from '@vueuse/core'
 import NavItem from '@/components/NavItem.vue'
-// 定义编程时路由导航
-const router = useRouter()
-const route = useRoute()
+import Tooltem from '@/components/Tooltem.vue'
+const logout = window.api?.logout
 const userStore = useUserStore()
-// 维护图标名称的数组
-const iconTopList = ['icon-chat', 'icon-user']
-const routes = ['/', '/friends']
-const iconBottomList = ['icon-gengduo']
-// 定义顶部当前激活图标索引
-
-const curIndex = ref(routes.indexOf(route.path))
-const topClickHandler = (i: number) => {
-  curIndex.value = i
-  router.push(routes[i])
-}
+const upperList = ref(['chat', 'contact'])
+const curIndex = ref(0)
 const centerDialogVisible = ref(false)
 // 定义一个新的对象收集表单数据
 const updatedUserInfo = reactive({
   ...userStore.userInfo!
 })
+const routes = ['/', '/friends']
+const router = useRouter()
+const handleClick = (i: number) => {
+  curIndex.value = i
+  router.push(routes[i])
+}
 // 定义电话号码的校验规则
 const rules = {
   phone: [
@@ -66,11 +62,7 @@ const confirmChange = () => {
 // 定义退出登录的逻辑
 const exit = () => {
   userStore.clearUserInfo()
-  ElMessage({
-    type: 'success',
-    message: '退出登录成功'
-  })
-  router.replace('/login')
+  logout()
 }
 // 定义展示工具栏二级菜单的按钮
 // 定义二级菜单，点击消除按钮
@@ -103,9 +95,21 @@ onClickOutside(menu, closeMenu)
           </div>
         </div>
       </div>
-      <NavItem><i-mingcute:chat-2-line /></NavItem>
+      <NavItem
+        v-for="(item, n) in upperList"
+        :key="item"
+        :class="{ active: curIndex === n }"
+        @click="handleClick(n)"
+        :mask-id="n"
+        :mask-class="item"
+      ></NavItem>
     </div>
-    <div class="lower"></div>
+    <div class="lower">
+      <Tooltem @click="menuShow = !menuShow"><i-mingcute:menu-line /></Tooltem>
+      <div class="menu" ref="menu" v-if="menuShow">
+        <div class="row" @click="exit">退出</div>
+      </div>
+    </div>
     <el-dialog v-model="centerDialogVisible" title="编辑资料" width="480px" align-center>
       <div class="container">
         <div class="avatar" @click="handleImgUpload">
@@ -173,15 +177,22 @@ onClickOutside(menu, closeMenu)
 
 <style scoped lang="scss">
 .side-bar {
+  width: 60px;
+  height: 100%;
+  background-color: #ececec;
+  flex-shrink: 0;
+  user-select: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-self: center;
+  padding-top: 28px;
   .upper {
-    padding-top: 28px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
+    -webkit-app-region: no-drag;
     .avatar {
       display: flex;
       justify-content: center;
@@ -189,7 +200,6 @@ onClickOutside(menu, closeMenu)
       .status {
         position: relative;
         cursor: pointer;
-        -webkit-app-region: no-drag;
         .img {
           font-size: 0;
           clip-path: path('M 21.7 35.5 A 18 18 0 1 1 33.17 27.68 A 7 7 0 1 0 21.7 35.5');
@@ -211,10 +221,39 @@ onClickOutside(menu, closeMenu)
     }
   }
   .lower {
-    height: 80px;
+    -webkit-app-region: no-drag;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    .menu {
+      -webkit-app-region: no-drag;
+      min-width: 80px;
+      padding: 4px 0;
+      border-radius: 5px;
+      background-color: white;
+      position: absolute;
+      left: 60px;
+      bottom: 10px;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      .row {
+        border-radius: 5px;
+        text-align: center;
+        white-space: nowrap;
+        padding: 4px 8px;
+        margin: 2px 6px;
+        &:hover {
+          background-color: rgb(245, 245, 245);
+        }
+      }
+    }
   }
   :deep(.el-overlay-dialog) {
     -webkit-app-region: no-drag;
+    user-select: none;
     .el-dialog {
       background-color: rgb(242, 242, 242);
     }

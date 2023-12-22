@@ -46,6 +46,16 @@ export default defineConfig({
         // experimental
         autoInstall: true
       })
-    ]
+    ],
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // 自动导入定制化样式文件进行样式覆盖
+          additionalData: `
+            @use "@/styles/var.scss" as *;
+          `
+        }
+      }
+    }
   }
 })

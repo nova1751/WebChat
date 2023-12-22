@@ -3,14 +3,32 @@ const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/login',
       name: 'login',
       component: () => import('@/views/Login/index.vue')
     },
     {
-      path: '/home',
+      path: '/',
       name: 'home',
-      component: () => import('@/views/Home/index.vue')
+      component: () => import('@/views/Home/index.vue'),
+      children: [
+        {
+          path: '',
+          name: 'message',
+          components: {
+            default: () => import('@/components/Message.vue'),
+            chatroom: () => import('@/components/Chat.vue')
+          }
+        },
+        {
+          path: 'friends',
+          name: 'friends',
+          components: {
+            default: () => import('@/components/Friends.vue'),
+            chatroom: () => import('@/views/Home/components/ChatRoom.vue')
+          }
+        }
+      ]
     },
     {
       path: '/test',

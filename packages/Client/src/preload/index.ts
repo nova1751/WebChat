@@ -4,7 +4,8 @@ import { contextBridge, ipcRenderer } from 'electron'
 // Custom APIs for renderer
 const api = {
   closeWindow: () => ipcRenderer.send('window-close'),
-  openHomeWindow: () => ipcRenderer.send('open-home-window')
+  openHomeWindow: () => ipcRenderer.send('open-home-window'),
+  logout: () => ipcRenderer.send('logout')
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
