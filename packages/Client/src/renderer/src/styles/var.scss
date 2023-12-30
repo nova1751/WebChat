@@ -13,6 +13,7 @@
 }
 // 滚动条
 @mixin scroll-bar {
+  scroll-behavior: smooth;
   &::-webkit-scrollbar {
     width: 6px;
   }

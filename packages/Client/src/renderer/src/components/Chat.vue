@@ -13,6 +13,7 @@ let socket: WebSocket | null
 const privateMessageList = ref<privateMessage[]>([])
 let receiver_id: number | null = 0
 const initSocket = () => {
+  if (!concatStore.currentRoom.room) return
   if (socket) {
     socket.close()
     socket = null
@@ -85,6 +86,9 @@ const sendMessage = () => {
 }
 const msgList = ref<HTMLDivElement | null>(null)
 onUpdated(() => {
+  // nextTick(() => {
+  //   msgList.value!.scrollTop = msgList.value!.scrollHeight
+  // })
   setTimeout(() => {
     msgList.value!.scrollTop = msgList.value!.scrollHeight
   }, 100)
@@ -347,8 +351,6 @@ const getGroupInfo = async () => {
           <div class="btn">
             <button id="sendMsg">
               <div>发送</div>
-              <div>|</div>
-              <div><i class="iconfont icon-xiala"></i></div>
             </button>
           </div>
         </div>
@@ -723,7 +725,7 @@ const getGroupInfo = async () => {
         flex-shrink: 0;
         min-height: 180px;
         max-height: 360px;
-        height: 280px;
+        height: 240px;
         border-top: $border-line;
         display: flex;
         flex-direction: column;
@@ -782,16 +784,13 @@ const getGroupInfo = async () => {
             display: flex;
             align-items: center;
             justify-content: space-evenly;
-            width: 140px;
-            height: 40px;
-            font-size: 20px;
+            width: 72px;
+            height: 30px;
+            font-size: 14px;
             color: white;
             background-color: rgb(0, 153, 255);
             border: none;
             border-radius: 5px;
-            .iconfont {
-              font-size: 20px;
-            }
             &:hover {
               background-color: rgb(0, 147, 245);
             }

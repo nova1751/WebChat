@@ -5,7 +5,7 @@
  * @param option 更改 width 或者 height 的选项
  */
 const handleResize = (e: MouseEvent, target: HTMLDivElement, option: boolean) => {
-  document.body.style.cursor = 'ew-resize'
+  document.body.style.cursor = option ? 'ew-resize' : 'ns-resize'
   e.preventDefault()
   // 记录鼠标初始坐标与元素初始宽度
   const startX = e.clientX
@@ -42,18 +42,25 @@ const handleResize = (e: MouseEvent, target: HTMLDivElement, option: boolean) =>
   }
   document.addEventListener('mouseup', mouseUp)
 }
-const throttle = (func, delay) => {
-  let startTime = Date.now()
-  let timer
+const throttle = (func, delay, option = { leading: true, trailing: true }) => {
+  let timer: any = null
+  let lastArgs: Array<any> = []
+  const step = () => {
+    timer = null
+    if (lastArgs.length) {
+      func.apply(this, lastArgs)
+      lastArgs.length = 0
+      timer = setTimeout(step, delay)
+    }
+  }
   return function (this: any, ...params) {
-    const endTime = Date.now()
-    const remain = delay - (endTime - startTime)
-    clearTimeout(timer)
-    if (remain <= 0) {
-      func.apply(this, params)
-      startTime = Date.now()
-    } else {
-      timer = setTimeout(func, remain)
+    if (!timer) {
+      if (option.leading) {
+        func.apply(this, params)
+      }
+      timer = setTimeout(step, delay)
+    } else if (option.trailing) {
+      lastArgs = params
     }
   }
 }

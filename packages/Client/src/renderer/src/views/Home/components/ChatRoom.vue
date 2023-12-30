@@ -10,6 +10,7 @@ import Info from '@/components/Info.vue'
 
 <style scoped lang="scss">
 .container {
+  background-color: #f2f2f2;
   height: 100%;
   width: 100%;
   flex: 1;

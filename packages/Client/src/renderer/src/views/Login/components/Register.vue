@@ -39,7 +39,7 @@ const doRegister = () => {
       if (valid) {
         try {
           isLoading.value = true
-          await userStore.getUserInfo(userInfo.value)
+          await userStore.userRegister(userInfo.value)
           ElMessage({ type: 'success', message: '注册成功' })
           emit('toLogin')
         } finally {

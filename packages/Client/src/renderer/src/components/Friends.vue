@@ -37,8 +37,8 @@ const groupHandleClick = (i: groupMessage) => {
             @click="friendHandleClick(message)"
           >
             <div class="avatar">
-              <el-avatar :size="60" :src="message.avatar ? IPAddress + message.avatar : null">
-                <el-icon :size="24"><IEpUserFilled /></el-icon
+              <el-avatar :size="40" :src="message.avatar ? IPAddress + message.avatar : null">
+                <el-icon :size="20"><IEpUserFilled /></el-icon
               ></el-avatar>
             </div>
             <div class="info">
@@ -73,6 +73,7 @@ const groupHandleClick = (i: groupMessage) => {
 <style scoped lang="scss">
 .friends-list {
   -webkit-app-region: no-drag;
+  background-color: #f2f2f2;
   .list {
     // background-color: skyblue;
     height: calc(100vh - 140px);
@@ -80,15 +81,15 @@ const groupHandleClick = (i: groupMessage) => {
     user-select: none;
     @include scroll-bar();
     .item {
-      height: 100px;
+      height: 72px;
       padding: 20px;
       display: flex;
       align-items: center;
       cursor: pointer;
       .avatar {
-        width: 60px;
-        height: 60px;
-        border-radius: 30px;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
         overflow: hidden;
         flex-shrink: 0;
         margin-right: 10px;
@@ -106,7 +107,7 @@ const groupHandleClick = (i: groupMessage) => {
         justify-content: space-around;
         .name {
           @include flex-ellipsis();
-          font-size: 24px;
+          font-size: 20px;
         }
         .msg {
           @include flex-ellipsis();

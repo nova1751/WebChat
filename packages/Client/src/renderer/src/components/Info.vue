@@ -21,13 +21,17 @@ const getFriendInfo = async () => {
     friendInfo.value = res.data
   }
 }
-watch(concatStore.info, (newVal) => {
-  if (!newVal.type) {
-    getFriendInfo()
-  } else {
-    getGroupInfo()
-  }
-})
+watch(
+  concatStore.info,
+  (newVal) => {
+    if (!newVal.type) {
+      getFriendInfo()
+    } else {
+      getGroupInfo()
+    }
+  },
+  { immediate: true }
+)
 
 const saveFriendInfo = async () => {
   const res = await updatefriendInfoAPI({
@@ -187,5 +191,6 @@ const saveFriendInfo = async () => {
 
 .box-card {
   width: min(500px, 90%);
+  -webkit-app-region: no-drag;
 }
 </style>
