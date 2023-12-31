@@ -13,7 +13,7 @@
 }
 // 滚动条
 @mixin scroll-bar {
-  scroll-behavior: smooth;
+  // scroll-behavior: smooth;
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -62,7 +62,7 @@
       // white-space: pre-line;
     }
     img {
-      width: 100%;
+      height: 200px;
       vertical-align: middle;
     }
   }

@@ -86,12 +86,12 @@ const sendMessage = () => {
 }
 const msgList = ref<HTMLDivElement | null>(null)
 onUpdated(() => {
-  // nextTick(() => {
-  //   msgList.value!.scrollTop = msgList.value!.scrollHeight
-  // })
-  setTimeout(() => {
+  nextTick(() => {
     msgList.value!.scrollTop = msgList.value!.scrollHeight
-  }, 100)
+  })
+  // setTimeout(() => {
+  //   msgList.value!.scrollTop = msgList.value!.scrollHeight
+  // }, 100)
 })
 // 处理发送图片的逻辑
 const SendImage = (e: any) => {
