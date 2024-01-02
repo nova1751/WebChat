@@ -1,0 +1,23 @@
+{
+  "name": "@webchat/web",
+  "version": "1.0.0",
+  "private": true,
+  "description": "An instant message app built with electron-vite",
+  "main": "./out/main/index.js",
+  "author": "nova1751",
+  "homepage": "https://refrain.cf",
+  "scripts": {
+    "dev": "vite",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write src/"
+  },
+  "devDependencies": {
+    "@tsconfig/node18": "^18.2.2",
+    "@vue/tsconfig": "^0.4.0",
+    "npm-run-all2": "^6.0.6"
+  }
+}
