@@ -4,6 +4,9 @@
   "packageManager": "pnpm@8.12.0",
   "scripts": {
     "clean": "rimraf -g **/node_modules",
+    "dev:client": "pnpm run -C packages/Client dev",
+    "dev:server": "pnpm run -C packages/Server start:dev",
+    "dev:web": "pnpm run -C packages/Web dev",
     "prepare": "husky install"
   },
   "engines": {
